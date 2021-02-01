@@ -27,14 +27,6 @@ def buyFuTu(param):
     settingData['appPackage'] = 'cn.futu.trader'
     settingData['appActivity'] = '.launch.activity.LaunchActivity'
     desired_caps = settingData
-    # desired_caps = {
-    #     'platformName':'Android',
-    #     'platformVersion':'10',
-    #     'deviceName':'2214c691',
-    #     'appPackage':'cn.futu.trader',
-    #     'noReset':True,
-    #     'appActivity':'.launch.activity.LaunchActivity'
-    # }
     driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
     driver.close_app();            
     sleep(3)
@@ -52,7 +44,6 @@ def buyFuTu(param):
         driver.find_element_by_xpath(buyPath).click()
         sleep(4)
         print(driver.page_source)
-        print(driver.contexts)
         financeTimePath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[3]/android.view.View[4]'
         financingPath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[3]/android.view.View[26]/android.view.View[5]/android.view.View/android.view.View[5]/android.view.View'
         cashPath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[3]/android.view.View[26]/android.view.View[4]/android.view.View/android.view.View[3]/android.view.View'
@@ -95,19 +86,15 @@ def buyFuTu(param):
             sleep(2)
             print(driver.page_source)
             pwd = getPwd('fuTu')['tradePwd']
-            print(pwd[0])
-            os.system('adb shell ime set com.sohu.inputmethod.sogou.xiaomi/.SogouIME')
-            # os.system('adb shell ime set io.appium.settings/.UnicodeIME')
-            # os.system('adb shell ime set com.iflytek.inputmethod.miui/.FlyIME')
-            # os.system('adb shell ime set com.baidu.input_mi/.ImeService')
+            for i in pwd:
+                index = i
+                if i == '0':
+                    index = 11
+                # pwdPath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[35]/android.view.View[1]/android.view.View[2]/android.view.View/android.view.View/android.widget.ListView/android.view.View[' + i + ']'
+                pwdPath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[35]/android.view.View[1]/android.view.View[2]/android.view.View/android.view.View/android.widget.ListView/android.view.View[4]'
+                driver.find_element_by_xpath(pwdPath).click()
+                sleep(1)
             
-            pwdPatha = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[35]/android.view.View[1]/android.view.View[2]/android.view.View/android.widget.ListView/android.view.View[1]'
-            driver.find_element_by_xpath(pwdPatha).click()
-            driver.press_keycode(144)
-            # driver.find_element_by_xpath(pwdPatha).set_value(3)
-            # pwdPathb = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[35]/android.view.View[1]/android.view.View[2]/android.view.View/android.widget.ListView/android.view.View[2]'
-            # driver.find_element_by_xpath(pwdPathb).click()
-            # driver.press_keycode(10)
         elif isExist(driver,2,financeTimePath):
             financingTime = driver.find_element_by_xpath(financeTimePath)
             text = financingTime.get_attribute('text')
