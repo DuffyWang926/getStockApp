@@ -2,8 +2,8 @@ import os
 from time import sleep
 import unittest
 from appium import webdriver
-from utils.verify import isExist
-from utils.verify import numFromStr
+from utils.verify import isExist, numFromStr
+from utils.openCv import getNumberLocation
 from src.getPwdData import getPwd
 
 
@@ -38,7 +38,13 @@ def tryTest(param):
     driver.find_element_by_xpath(searchPath).click()
     sleep(1)
     a = driver.available_ime_engines
-    print(a)
+    # im = 'all.jpg'
+    # im = 'next.png'
+    im = 'all.png'
+    pwd = '123'
+    test = getNumberLocation(im, pwd)
+    print('test')
+    print(test)
     #  os.system('adb shell ime set com.sohu.inputmethod.sogou.xiaomi/.SogouIME')
     # os.system('adb shell ime set io.appium.settings/.UnicodeIME')
     # os.system('adb shell ime set com.iflytek.inputmethod.miui/.FlyIME')
@@ -47,7 +53,7 @@ def tryTest(param):
     # pwdPatha = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[35]/android.view.View[1]/android.view.View[2]/android.view.View/android.widget.ListView/android.view.View[1]'
     # driver.find_element_by_xpath(pwdPatha).click()
     # driver.press_keycode(144)
-    driver.press_keycode(29)
+    # driver.press_keycode(29)
 
     
     

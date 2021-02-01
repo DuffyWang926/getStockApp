@@ -64,7 +64,7 @@ def  buyStock():
     # buyRuiFeng(param)
 
 
-    # tryTest(param)
+    tryTest(param)
     
 def operateMainland():
     param = {
@@ -96,7 +96,7 @@ def getProperty():
     # getYaoCaiProperty(param)?
     # getYouYuProperty(param)
     # getAErFaProperty(param)
-    getChangQiaoProperty(param)
+    # getChangQiaoProperty(param)
     
     
 
@@ -116,6 +116,6 @@ if __name__ == '__main__':
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(buyStock())
     # loop.close()
-    # buyStock()
+    buyStock()
     # operateMainland()
-    getProperty()
+    # getProperty()
