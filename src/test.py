@@ -15,6 +15,8 @@ from src.getPwdData import getPwd
 # driver.find_element_by_android_uiautomator('new UiSelector().textContains("4000")')
 # financingBtn.text
 # financingBtn.get_attribute('checkable')
+# driver.press_keycode(51)
+# driver.press_keycode(29,64,59)
 def tryTest(param):
     code = param['code']
     isCash = param['isCash']
@@ -40,11 +42,11 @@ def tryTest(param):
     a = driver.available_ime_engines
     # im = 'all.jpg'
     # im = 'next.png'
-    im = 'all.png'
-    pwd = '123'
-    test = getNumberLocation(im, pwd)
-    print('test')
-    print(test)
+    # im = 'all.png'
+    # pwd = '123'
+    # test = getNumberLocation(im, pwd)
+    # print('test')
+    # print(test)
     #  os.system('adb shell ime set com.sohu.inputmethod.sogou.xiaomi/.SogouIME')
     # os.system('adb shell ime set io.appium.settings/.UnicodeIME')
     # os.system('adb shell ime set com.iflytek.inputmethod.miui/.FlyIME')
@@ -52,8 +54,16 @@ def tryTest(param):
     
     # pwdPatha = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[35]/android.view.View[1]/android.view.View[2]/android.view.View/android.widget.ListView/android.view.View[1]'
     # driver.find_element_by_xpath(pwdPatha).click()
-    # driver.press_keycode(144)
-    # driver.press_keycode(29)
+    
+    driver.press_keycode(51,64,59)
+    
+    driver.press_keycode(33)
+    driver.press_keycode(34)
+    driver.press_keycode(8)
+    driver.press_keycode(16)
+    driver.press_keycode(16)
+    driver.press_keycode(8)
+    driver.press_keycode(16)
 
     
     

@@ -42,9 +42,7 @@ def getPwd(name):
 
     return result
 
-def getKeyCode(val):
-    print('val')
-    print(val)
+def getKeyCode(driver, val):
     initData = {
         '0':7,
         '1':8,
@@ -95,6 +93,14 @@ def getKeyCode(val):
         'Y':53,
         'Z':54,        
     }
-    result = initData[(val)]
 
-    return result
+    for i in val:
+        if i.isdigit():
+            code = initData[(i)]
+            driver.press_keycode(code)
+        elif i.islower():
+            code = initData[(i.upper())]
+            driver.press_keycode(code)
+        elif i.isupper():
+            code = initData[(i)]
+            driver.press_keycode(code,64,59)

@@ -50,23 +50,10 @@ def buyFuYuan(param):
         driver.find_element_by_xpath(buyPath).click()
         sleep(1)
     pwd = getPwd('fuYuan')['tradePwd']
-    print(pwd)
-    for i in pwd:
-        if i.isdigit():
-            code = getKeyCode(i)
-            driver.press_keycode(78)
-            # driver.press_keycode(code)
-            print(code)
-        elif i.islower():
-            code = getKeyCode(i.upper())
-            # driver.press_keycode(code)
-            print(code)
-        elif i.isupper():
-            code = getKeyCode(i)
-            driver.press_keycode(60)
-            # driver.press_keycode(code)
-            print(code)
-        
+    getKeyCode(driver, pwd)
+    confirmId = 'com.sunline.android.sunline:id/btn_purchase'
+    end = driver.find_element_by_id(confirmId).text
+    print(end)
 
     sleep(20)
     driver.quit()
