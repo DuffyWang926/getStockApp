@@ -2,7 +2,7 @@ import os
 from time import sleep
 import unittest
 from appium import webdriver
-from src.getPwdData import getPwd
+from src.getPwdData import getPwd, getKeyCode
 from utils.verify import isExist, numFromStr
 from setting import getSetting
 from mysql.initDB import initMysql
@@ -22,15 +22,6 @@ def buyFuYuan(param):
     settingData['appPackage'] = 'com.sunline.android.sunline'
     settingData['appActivity'] = '.DefaultAlias'
     desired_caps = settingData
-    # desired_caps = {
-    #     'platformName':'Android',
-    #     'platformVersion':'10',
-    #     'deviceName':'2214c691',
-    #     'appPackage':'com.sunline.android.sunline',
-    #     'noReset':True,
-    #     'appActivity':'.DefaultAlias',
-    #     'automationName':'uiautomator2'
-    # }
     driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
     driver.close_app();            
     sleep(3)
@@ -39,6 +30,10 @@ def buyFuYuan(param):
     if isExist(driver, 4, 'com.sunline.android.sunline:id/cancel'):
         driver.find_element_by_id('com.sunline.android.sunline:id/cancel').click()
         sleep(1)
+    tipPath = 'new UiSelector().text("我知道了")'
+    if isExist(driver, 1, tipPath):
+        driver.find_element_by_android_uiautomator(tipPath).click()
+        sleep(1)
 
     driver.find_element_by_android_uiautomator('new UiSelector().text("交易")').click()
     sleep(2)
@@ -46,16 +41,34 @@ def buyFuYuan(param):
     sleep(1)
     driver.find_element_by_android_uiautomator('new UiSelector().text("可认购")').click()
     sleep(1)
+    # contentPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout[2]/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.ViewSwitcher/android.widget.RelativeLayout/android.support.v7.widget.RecyclerView/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout'
+    # contentView = driver.find_element_by_xpath(contentPath)
+    titlePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout[2]/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.ViewSwitcher/android.widget.RelativeLayout/android.support.v7.widget.RecyclerView/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.TextView[2]'
+    title = driver.find_element_by_xpath(titlePath).text
+    if code in title:
+        buyPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout[2]/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.ViewSwitcher/android.widget.RelativeLayout/android.support.v7.widget.RecyclerView/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.Button'
+        driver.find_element_by_xpath(buyPath).click()
+        sleep(1)
+    pwd = getPwd('fuYuan')['tradePwd']
+    print(pwd)
+    for i in pwd:
+        if i.isdigit():
+            code = getKeyCode(i)
+            driver.press_keycode(78)
+            # driver.press_keycode(code)
+            print(code)
+        elif i.islower():
+            code = getKeyCode(i.upper())
+            # driver.press_keycode(code)
+            print(code)
+        elif i.isupper():
+            code = getKeyCode(i)
+            driver.press_keycode(60)
+            # driver.press_keycode(code)
+            print(code)
+        
 
-    # buyPath='//android.widget.TextView[contains(@text,"(' + code + '.HK)")]/parent::*/following-sibling::android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.TextView'
-    # driver.find_element_by_xpath(buyPath).click()
-    # sleep(1)
-    # if not isCash:
-    #     driver.find_element_by_id('com.juniorchina.jcstock:id/iv_margin').click()
-
-    # numPath = 'new UiSelector().textContains("%d")'%(stockNum)
-    # driver.find_element_by_android_uiautomator(numPath).click()
-    # sleep(1)
+    sleep(20)
     driver.quit()
 
 

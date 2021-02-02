@@ -33,41 +33,22 @@ def buyAiDe(param):
         sleep(1)
     driver.find_element_by_android_uiautomator('new UiSelector().text("新股中心")').click()
     sleep(5)
-    print(driver.page_source)
-    print(driver.contexts)
-    contentPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[9]/android.view.View/android.view.View/android.view.View[1]/android.view.View'
-    contentView = driver.find_element_by_xpath(contentPath)
-    print(contentView)
-    print(contentView.parent)
-    # test = contentView.find_elements_by_class_name('android.view.View')
-    # print('test')
-    # print(test)
-    test2 = contentView.find_elements_by_xpath('/android.view.View')
-    print('test2')
-    print(test2[0].get_attribute('bounds'))
-    test3 = test2[0].find_elements_by_xpath('/android.view.View')
-    print('test3')
-    print(test3)
-    # print(test2[0].get_attribute('bounds'))
-    # print(test2[0].get_attribute('bounds'))
-
-
+    contentPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[9]/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View'
+    contentView = driver.find_elements_by_xpath(contentPath)
+    contentLen = len(contentView) -2
+    for i in range(contentLen):
+        index = str(i + 2)
+        titlePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[9]/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[' + index +']/android.view.View[1]'
+        itemTitle = driver.find_element_by_xpath(titlePath).text
+        if code in itemTitle:
+            buyPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[9]/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[' + index +']/android.view.View[2]'
+            driver.find_element_by_xpath(buyPath).click()
+            sleep(2)
+    confirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[6]/android.widget.Button'
+    confirmBtn = driver.find_element_by_xpath(confirmPath).text
+    print(confirmBtn)
     
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("新股认购")').click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("可认购")').click()
-    # sleep(1)
-
-    # buyPath='//android.widget.TextView[contains(@text,"(' + code + '.HK)")]/parent::*/following-sibling::android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.TextView'
-    # driver.find_element_by_xpath(buyPath).click()
-    # sleep(1)
-    # if not isCash:
-    #     driver.find_element_by_id('com.juniorchina.jcstock:id/iv_margin').click()
-
-    # numPath = 'new UiSelector().textContains("%d")'%(stockNum)
-    # driver.find_element_by_android_uiautomator(numPath).click()
-    # sleep(1)
-    sleep(10)
+    sleep(5)
     driver.quit()
 
 def getAiDeProperty(param):
