@@ -22,14 +22,6 @@ def buyDongCai(param):
     settingData['appPackage'] = 'com.eastmoney.android.lead'
     settingData['appActivity'] = 'com.eastmoney.android.berlin.activity.MainActivity'
     desired_caps = settingData
-    # desired_caps = {
-    #     'platformName':'Android',
-    #     'platformVersion':'10',
-    #     'deviceName':'2214c691',
-    #     'appPackage':'com.eastmoney.android.lead',
-    #     'noReset':True,
-    #     'appActivity':'com.eastmoney.android.berlin.activity.MainActivity',
-    # }
     driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
     driver.close_app();            
     sleep(3)

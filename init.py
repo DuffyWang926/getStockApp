@@ -31,20 +31,21 @@ def  buyStock():
     
     param = {
         'setIndex':0,
-        'code':'01473',
-        'num':4000,
-        'isCash':True,
+        'code':'06606',
+        'num':'500',
+        # 'isCash':True,
+        'isCash':False,
         'isCashAll':False,
         'numVal':'1手',
-        'isFinancingAll':False,
+        'isFinancingAll':True,
     }
     # buyZunJia(param)
     # buyFuTu(param)
     # buyHuaShengTong(param)
     # buyAiDe(param)
-    buyFuYuan(param)
+    # buyFuYuan(param)
     # buyTiger(param)
-    # buyDongCai(param)
+    buyDongCai(param)
     # buyYingLi(param)
     # buyZhangLe(param)
     # buyJiaTou(param)
