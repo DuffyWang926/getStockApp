@@ -2,7 +2,7 @@ import os
 from time import sleep
 import unittest
 from appium import webdriver
-from src.getPwdData import getPwd
+from src.getPwdData import getPwd, getKeyCode
 from utils.verify import isExist
 from setting import getSetting
 from mysql.initDB import initMysql
@@ -14,7 +14,8 @@ from mysql.initDB import initMysql
 def buyDongCai(param):
     code = param['code']
     isCash = param['isCash']
-    stockNumVal = param['numVal']
+    stockNum = param['num']
+    # stockNumVal = param['numVal']
     isFinancingAll = param['isFinancingAll']
     isCashAll = param['isCashAll']
     settingIndex = param['setIndex']
@@ -32,23 +33,84 @@ def buyDongCai(param):
     sleep(2)
     driver.find_element_by_xpath('//android.widget.TextView[contains(@text, "认购中")]').click()
     sleep(1)
-    # if isExist(driver,'com.tigerbrokers.stock:id/btn_cancel') :
-    #     driver.find_element_by_id('com.tigerbrokers.stock:id/btn_cancel').click()
-    #     sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("IPO")').click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("港股")').click()
-    # sleep(1)
-
-    # buyPath='//android.widget.TextView[contains(@text,"(' + code + '.HK)")]/parent::*/following-sibling::android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.TextView'
-    # driver.find_element_by_xpath(buyPath).click()
-    # sleep(1)
-    # if not isCash:
-    #     driver.find_element_by_id('com.juniorchina.jcstock:id/iv_margin').click()
-
-    # numPath = 'new UiSelector().textContains("%d")'%(stockNum)
-    # driver.find_element_by_android_uiautomator(numPath).click()
-    # sleep(1)
+    codeText = 'new UiSelector().text("' + code +'")'
+    codeParentView = driver.find_element_by_android_uiautomator(codeText).parent
+    codeParentView.find_element_by_android_uiautomator('new UiSelector().text("认购")').click()
+    sleep(1)
+    pwd = getPwd('dongCai')['tradePwd']
+    print(pwd)
+    getKeyCode(driver, pwd)
+    sleep(3)
+    if isCash:
+        cashText = 'new UiSelector().text("现金")'
+        driver.find_element_by_android_uiautomator(cashText).click()
+    amountChooseUi = 'new UiSelector().text("请选择认购股数")'
+    driver.find_element_by_android_uiautomator(amountChooseUi).click()
+    sleep(1)
+    
+    amountFlag = True
+    amountCheckIndex = ''
+    while amountFlag:
+        amountViewPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup'
+        amountView = driver.find_elements_by_xpath(amountViewPath)
+        amountLen = len(amountView) - 1
+        print(amountLen)
+        for i in range(amountLen):
+            index = str(i + 1)
+            print(index)
+            if isCashAll:
+                amountOutText = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup['+ index +']/android.view.ViewGroup/android.widget.TextView[2]'
+                if isExist(driver, 2, amountOutText):
+                    amountFlag = False
+                    amountCheckIndex = str(i)
+                    break
+            elif isCash:
+                amountTextPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup['+ index +']/android.view.ViewGroup/android.widget.TextView'
+                amountText = driver.find_element_by_xpath(amountTextPath).text
+                if stockNum in amountText:
+                    amountFlag = False
+                    amountCheckIndex = str(i+1)
+                    break
+            elif isFinancingAll:
+                testUi = 'new UiSelector().textContains("不足")'
+                if isExist(amountView[i], 1, testUi):
+                    test = amountView[i].find_element_by_android_uiautomator('new UiSelector().textContains("不足")').text
+                    print(test)
+                    amountFlag = False
+                    amountCheckIndex = str(i)
+                    break
+            else:
+                amountTextPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup['+ index +']/android.view.ViewGroup/android.widget.TextView'
+                amountText = driver.find_element_by_xpath(amountTextPath).text
+                if stockNum in amountText:
+                    amountFlag = False
+                    amountCheckIndex = str(i+1)
+                    break
+                
+        if amountFlag:
+            driver.swipe(200,1760,200,1610,300)
+            sleep(1)
+    amountCheckPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[' + amountCheckIndex +']/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup'
+    print(amountCheckPath)
+    driver.find_element_by_xpath(amountCheckPath).click()
+    sleep(1)
+    agreePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup[1]'
+    driver.find_element_by_xpath(agreePath).click()
+    sleep(1)
+    confirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.TextView'
+    driver.find_element_by_xpath(confirmPath).click()
+    sleep(1)
+    submitUi = 'new UiSelector().textContains("确认认购")'
+    driver.find_element_by_android_uiautomator(submitUi).click()
+    sleep(1)
+    pwd = getPwd('dongCai')['tradePwd']
+    print(pwd)
+    getKeyCode(driver, pwd)
+    sleep(1)
+    endUi = 'new UiSelector().text("确认")'
+    if isExist(driver,1,endUi):
+        driver.find_element_by_android_uiautomator(endUi).click()
+    sleep(3)
     driver.quit()
 
 def getDongCaiProperty(param):

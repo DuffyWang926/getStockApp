@@ -35,6 +35,11 @@ def getPwd(name):
             'logInPwd':'Wef1991926',
             'tradePwd':'Wef19919',
         },
+        'dongCai':{
+            'account':'10539496',
+            'logInPwd':'324872',
+            'tradePwd':'324872',
+        },
         'phone':'17319075327'
         
     }

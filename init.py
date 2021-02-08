@@ -36,6 +36,7 @@ def  buyStock():
         # 'isCash':True,
         'isCash':False,
         'isCashAll':False,
+        # 'isCashAll':True,
         'numVal':'1手',
         'isFinancingAll':True,
     }
@@ -45,8 +46,8 @@ def  buyStock():
     # buyAiDe(param)
     # buyFuYuan(param)
     # buyTiger(param)
-    buyDongCai(param)
-    # buyYingLi(param)
+    # buyDongCai(param)
+    buyYingLi(param)
     # buyZhangLe(param)
     # buyJiaTou(param)
     # buyDongFang(param)
