@@ -28,17 +28,22 @@ from mysql.initDB import initMysql
 from src.mainland.zhaoShang import operateZhaoShang
 from time import sleep
 def  buyStock():
+    typeApp = {
+        'tiger':True,
+        'dongCai':True,
+        'fuTu':True
+    }
     
     param = {
         'setIndex':0,
         'code':'06606',
         'num':'500',
-        # 'isCash':True,
-        'isCash':False,
+        'isCash':True,
+        # 'isCash':False,
         'isCashAll':False,
         # 'isCashAll':True,
         'numVal':'1手',
-        'isFinancingAll':True,
+        'isFinancingAll':False,
     }
     # buyZunJia(param)
     # buyFuTu(param)
@@ -47,8 +52,8 @@ def  buyStock():
     # buyFuYuan(param)
     # buyTiger(param)
     # buyDongCai(param)
-    buyYingLi(param)
-    # buyZhangLe(param)
+    # buyYingLi(param)
+    buyZhangLe(param)
     # buyJiaTou(param)
     # buyDongFang(param)
     # buyYaoCai(param)
