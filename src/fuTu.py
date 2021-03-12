@@ -4,9 +4,9 @@ import unittest
 from appium import webdriver
 from utils.verify import isExist
 from utils.verify import numFromStr
-from src.getPwdData import getPwd
 from setting import getSetting
 from mysql.initDB import initMysql
+from src.getPwdData import getPwd, getKeyCode
 # driver.find_element_by_id('android:id/content')
 # driver.find_element_by_class_name('android.view.View')
 # driver.find_element_by_xpath('//android.view.View[contains(@text, "去认购")]')
@@ -154,4 +154,31 @@ def getFuTuProperty(param):
     }
     initMysql(param)
     driver.quit()
+
+def tradeFuTu(param):
+    driver = initFuTu(param)
+    searchPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.LinearLayoutCompat/android.widget.FrameLayout[2]/android.widget.ImageView'
+    driver.find_element_by_xpath(searchPath).click()
+    sleep(1)
+    code = param['code']
+    getKeyCode(driver,code)
+    sleep(2)
+    stockPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.view.ViewGroup/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.view.ViewGroup'
+    driver.find_element_by_xpath(stockPath).click()
+    sleep(1)
+    sleep(10)
+
+def initFuTu(param):
+    settingIndex = param['setIndex']
+    settingData = getSetting(settingIndex)
+    settingData['appPackage'] = 'cn.futu.trader'
+    settingData['appActivity'] = '.launch.activity.LaunchActivity'
+    desired_caps = settingData
+    driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+    driver.close_app();            
+    sleep(3)
+    driver.launch_app(); 
+    sleep(5)
+    return driver
     
+

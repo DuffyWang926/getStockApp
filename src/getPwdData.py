@@ -109,3 +109,4 @@ def getKeyCode(driver, val):
         elif i.isupper():
             code = initData[(i)]
             driver.press_keycode(code,64,59)
+

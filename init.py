@@ -1,6 +1,6 @@
 import asyncio
 from src.zunJia import buyZunJia, getZunJiaProperty
-from src.fuTu import buyFuTu, getFuTuProperty
+from src.fuTu import buyFuTu, getFuTuProperty, tradeFuTu
 from src.huaShengTong import buyHuaShengTong, getHuaShengTongProperty
 from src.aiDe import buyAiDe, getAiDeProperty
 from src.fuYuan import buyFuYuan, getfuYuanProperty
@@ -36,14 +36,14 @@ def  buyStock():
     
     param = {
         'setIndex':0,
-        'code':'06606',
-        'num':'500',
-        'isCash':True,
+        'code':'09888',
+        'num':'50',
+        'isCash':False,
         # 'isCash':False,
         'isCashAll':False,
         # 'isCashAll':True,
         'numVal':'1手',
-        'isFinancingAll':False,
+        'isFinancingAll':True,
     }
     # buyZunJia(param)
     # buyFuTu(param)
@@ -53,9 +53,9 @@ def  buyStock():
     # buyTiger(param)
     # buyDongCai(param)
     # buyYingLi(param)
-    buyZhangLe(param)
+    # buyZhangLe(param) buy
     # buyJiaTou(param)
-    # buyDongFang(param)
+    buyDongFang(param)
     # buyYaoCai(param)
     # buyYouYu(param)
     # buyAErFa(param)
@@ -84,7 +84,15 @@ def operateMainland():
         'isFinancingAll':False,
     }
     operateZhaoShang(param)
-
+def trade():
+    param = {
+        'setIndex':0,
+        'code':'01413',
+        'num':'500',
+        'numVal':'1手',
+        'isAll':False,
+    }
+    tradeFuTu(param)
 def getProperty():
     param = {
         'setIndex':0,
@@ -124,5 +132,6 @@ if __name__ == '__main__':
     # loop.run_until_complete(buyStock())
     # loop.close()
     buyStock()
+    # trade()
     # operateMainland()
     # getProperty()

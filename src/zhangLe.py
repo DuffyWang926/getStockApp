@@ -34,7 +34,7 @@ def buyZhangLe(param):
    sleep(3)
    driver.launch_app(); 
    sleep(6)
-   loginZhangeLe(driver)
+   openZhangeLe(driver)
    driver.find_element_by_id('com.lphtsccft.zlqqt2:id/main_account').click()
    sleep(1)
    menuPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]'
@@ -46,8 +46,17 @@ def buyZhangLe(param):
    sleep(1)
    driver.find_element_by_android_uiautomator('new UiSelector().text("打新股")').click()
    sleep(1)
+   codePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView[2]'
+   codeText = driver.find_element_by_xpath(codePath).text
+   print(codeText)
+   if codeText == code:
+      buyPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView'
+      driver.find_element_by_xpath(buyPath).click()
+      sleep(1)
+   loginZhangeLe(driver)
 
    
+
    # driver.find_element_by_android_uiautomator('new UiSelector().text("交易")').click()
    # sleep(2)
    # driver.find_element_by_android_uiautomator('new UiSelector().text("新股认购")').click()
@@ -70,7 +79,7 @@ def buyZhangLe(param):
 
    # numPath = 'new UiSelector().textContains("%d")'%(stockNum)
    # driver.find_element_by_android_uiautomator(numPath).click()
-   # sleep(1)
+   sleep(10)
    driver.quit()
     
 
@@ -85,7 +94,7 @@ def getZhangeLeProperty(param):
    sleep(3)
    driver.launch_app(); 
    sleep(10)
-   loginZhangeLe(driver)
+   openZhangeLe(driver)
    driver.find_element_by_id('com.lphtsccft.zlqqt2:id/main_account').click()
    sleep(2)
    
@@ -104,7 +113,7 @@ def getZhangeLeProperty(param):
    
     
 
-def loginZhangeLe(driver):
+def openZhangeLe(driver):
    closePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ImageView'
    if isExist(driver, 2,closePath):
       driver.find_element_by_xpath(closePath).click()
@@ -113,3 +122,16 @@ def loginZhangeLe(driver):
    if isExist(driver, 4,'com.lphtsccft.zlqqt2:id/pending_open'):
        driver.find_element_by_id('com.lphtsccft.zlqqt2:id/pending_open').click()
        sleep(1)
+   
+   if isExist(driver, 4,'com.lphtsccft.zlqqt2:id/ipo_dialog_close'):
+       driver.find_element_by_id('com.lphtsccft.zlqqt2:id/pending_open').click()
+       sleep(1)
+
+def loginZhangeLe(driver):
+   pwd = getPwd('zhangLe')['tradePwd']
+   pwdId = 'com.lphtsccft.zlqqt2:id/login_et_password'
+   if isExist(driver, 4, pwdId):
+      driver.find_element_by_id(pwdId).send_keys(pwd)
+      driver.find_element_by_id('com.lphtsccft.zlqqt2:id/login_btn_login_account').click()
+
+       
