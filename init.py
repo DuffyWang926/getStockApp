@@ -33,17 +33,19 @@ def  buyStock():
         'dongCai':True,
         'fuTu':True
     }
+    isCash = True
+    isFinancingAll = not isCash
     
     param = {
         'setIndex':0,
-        'code':'09888',
-        'num':'50',
-        'isCash':False,
+        'code':'09959',
+        'num':'500',
         # 'isCash':False,
+        'isCash':isCash,
         'isCashAll':False,
         # 'isCashAll':True,
         'numVal':'1手',
-        'isFinancingAll':True,
+        'isFinancingAll':isFinancingAll,
     }
     # buyZunJia(param)
     # buyFuTu(param)
