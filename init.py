@@ -33,14 +33,14 @@ def  buyStock():
         'dongCai':True,
         'fuTu':True
     }
-    isCash = True
+    isCash = False
+    # isCash = True
     isFinancingAll = not isCash
     
     param = {
         'setIndex':0,
         'code':'09959',
         'num':'500',
-        # 'isCash':False,
         'isCash':isCash,
         'isCashAll':False,
         # 'isCashAll':True,
@@ -57,8 +57,8 @@ def  buyStock():
     # buyYingLi(param)
     # buyZhangLe(param) buy
     # buyJiaTou(param)
-    buyDongFang(param)
-    # buyYaoCai(param)
+    # buyDongFang(param)
+    buyYaoCai(param)
     # buyYouYu(param)
     # buyAErFa(param)
     # buyAErFa(param)
