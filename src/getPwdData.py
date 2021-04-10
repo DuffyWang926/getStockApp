@@ -40,6 +40,11 @@ def getPwd(name):
             'logInPwd':'324872',
             'tradePwd':'324872',
         },
+        'youYu':{
+            'account':'5071962',
+            'logInPwd':'Wef1991926',
+            'tradePwd':'324872?',
+        },
         'phone':'17319075327'
         
     }
