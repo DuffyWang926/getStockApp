@@ -45,6 +45,11 @@ def getPwd(name):
             'logInPwd':'Wef1991926',
             'tradePwd':'324872?',
         },
+        'changQiao':{
+            'account':'17319075327',
+            'logInPwd':'324872',
+            'tradePwd':'324872',
+        },
         'phone':'17319075327'
         
     }

@@ -35,11 +35,12 @@ def  buyStock():
     }
     isCash = False
     # isCash = True
-    isFinancingAll = not isCash
+    isFinancingAll = False
     
     param = {
         'setIndex':0,
         'code':'09961',
+        'codeName':'携程集团-S',
         'num':'350',
         'isCash':isCash,
         'isCashAll':False,
@@ -59,11 +60,11 @@ def  buyStock():
     # buyJiaTou(param)
     # buyDongFang(param)
     # buyYaoCai(param)
+    # buyAErFa(param)
+
     # ？
     # buyYouYu(param)
-    buyAErFa(param)
-    # buyAErFa(param)
-    # buyChangQiao(param)
+    buyChangQiao(param)
     # buyYiSheng(param)
     # buyHengZhengTong(param)
     # buyGuoDu(param)
