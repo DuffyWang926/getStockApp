@@ -60,13 +60,15 @@ def  buyStock():
     # buyJiaTou(param)
     # buyDongFang(param)
     # buyYaoCai(param)
-    # buyAErFa(param)
+    # buyChangQiao(param)
+    # buyYouYu(param)
+
 
     # ？
-    # buyYouYu(param)
-    buyChangQiao(param)
-    # buyYiSheng(param)
-    # buyHengZhengTong(param)
+    # buyAErFa(param)
+    # buyYiSheng(param) 
+
+    buyHengZhengTong(param)
     # buyGuoDu(param)
     # buyYiTaoJin(param)
     # buyLiTongTianXia(param)

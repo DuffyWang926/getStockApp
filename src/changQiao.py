@@ -45,7 +45,6 @@ def buyChangQiao(param):
             driver.find_element_by_xpath(codeBuyPath).click()
             sleep(1)
     pwd = getPwd('changQiao')['tradePwd']
-    print(pwd)
     getKeyCode(driver, pwd)
     sleep(1)
     numChoosePath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[1]'
