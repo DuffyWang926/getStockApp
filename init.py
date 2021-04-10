@@ -56,7 +56,7 @@ def  buyStock():
     # buyTiger(param)
     # buyDongCai(param)
     # buyYingLi(param)
-    # buyZhangLe(param) buy
+    
     # buyJiaTou(param)
     # buyDongFang(param)
     # buyYaoCai(param)
@@ -67,15 +67,17 @@ def  buyStock():
     # ？
     # buyAErFa(param)
     # buyYiSheng(param) 
-
-    buyHengZhengTong(param)
-    # buyGuoDu(param)
     # buyYiTaoJin(param)
-    # buyLiTongTianXia(param)
-    # buyFangDe(param)
+
+    buyFangDe(param)
     # buyXueYing(param)
     # buyRuiFeng(param)
-
+    
+    # buyGuoDu(param)
+    # buyZhangLe(param)
+    # unused
+    # buyHengZhengTong(param)
+    # buyLiTongTianXia(param)
 
     # tryTest(param)
     
