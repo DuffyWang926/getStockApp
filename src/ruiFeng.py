@@ -2,7 +2,7 @@ import os
 from time import sleep
 import unittest
 from appium import webdriver
-from src.getPwdData import getPwd
+from src.getPwdData import getPwd, getKeyCode
 from utils.verify import isExist
 from setting import getSetting
 # driver.find_element_by_id('android:id/content')
@@ -26,59 +26,73 @@ def buyRuiFeng(param):
     sleep(3)
     driver.launch_app(); 
     sleep(5)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("行情")').click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("港股")').click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("新股认购")').click()
-    # sleep(1)
+    loginApp(driver)
+    driver.find_element_by_android_uiautomator('new UiSelector().text("新股申购")').click()
+    sleep(1)
+    codeListPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ExpandableListView/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout'
+    codeList = driver.find_elements_by_xpath(codeListPath)
+    codeListLen = len(codeList)
+    if codeListLen < 2:
+        codeChoosePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ExpandableListView/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.TextView[2]'
+    driver.find_element_by_xpath(codeChoosePath).click()
+    sleep(1)
+    codeConfirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.Button'
+    driver.find_element_by_xpath(codeConfirmPath).click()
+    sleep(1)
+    loginApp(driver,codeConfirmPath)
+    agreePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button'
+    driver.find_element_by_xpath(agreePath).click()
+    sleep(2)
+    agreeNextConfirm = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.ImageView'
+    driver.find_element_by_xpath(agreeNextConfirm).click()
+    sleep(1)
+    agreeNextPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.Button'
+    driver.find_element_by_xpath(agreeNextPath).click()
+    sleep(1)
+    if not isCash:
+        typePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.TextView[2]'
+        driver.find_element_by_xpath(typePath).click()
+        sleep(1)
+        driver.swipe(200,2161,200,2002,300)
+        sleep(1)
+        typeConfirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.Button[2]'
+        driver.find_element_by_xpath(typeConfirmPath).click()
+        sleep(1)
+    numChoosePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.TextView[2]'
+    driver.find_element_by_xpath(numChoosePath).click()
+    sleep(1)
+    oneNum = int(param['oneNum'])
+    num = int(param['num'])
+    numLen = int(num/oneNum -1)
+    print(numLen)
+    for i in range(numLen):
+        driver.swipe(200,2050,200,2000,300)
+        sleep(1)
+    numConfirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.Button[2]'
+    driver.find_element_by_xpath(numConfirmPath).click()
+    sleep(1)
+    confirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.Button'
+    driver.find_element_by_xpath(confirmPath).click()
+    sleep(1)
     
-    # path = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.support.v4.view.ViewPager/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[3]'
-    # driver.find_element_by_xpath(path).click()
-    # sleep(1)
-    # pwd = getPwd('dongFang')['tradePwd']
-    # driver.find_elements_by_class_name('android.widget.EditText')[1].send_keys(pwd)
-    # loginPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[7]/android.view.View'
-    # driver.find_element_by_xpath(loginPath).click()
-    # sleep(1)
-    # agreePath = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[3]/android.widget.LinearLayout/android.view.View[2]'
-    # driver.find_element_by_xpath(agreePath).click()
-    # sleep(5)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("新股申购")').click()
-    # sleep(5)
-    
-    # driver.find_element_by_xpath('//*[contains(@text, "马上登录")]').click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("新股中心")').click()
-    # sleep(1)
-    # driver.find_element_by_id('com.lphtsccft.zlqqt2:id/main_account').click()
-    # sleep(1)
-    # path = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[2]'
-    # driver.find_element_by_xpath(path).click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("打新股")').click()
 
-    
-    
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("新股认购")').click()
-    # sleep(1)
-    # driver.find_element_by_xpath('//android.widget.TextView[contains(@text, "认购中")]').click()
-    # sleep(1)
-    # if isExist(driver,'com.tigerbrokers.stock:id/btn_cancel') :
-    #     driver.find_element_by_id('com.tigerbrokers.stock:id/btn_cancel').click()
-    #     sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("IPO")').click()
-    # sleep(1)
-    # driver.find_element_by_android_uiautomator('new UiSelector().text("港股")').click()
-    # sleep(1)
 
-    # buyPath='//android.widget.TextView[contains(@text,"(' + code + '.HK)")]/parent::*/following-sibling::android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.TextView'
-    # driver.find_element_by_xpath(buyPath).click()
-    # sleep(1)
-    # if not isCash:
-    #     driver.find_element_by_id('com.juniorchina.jcstock:id/iv_margin').click()
-
-    # numPath = 'new UiSelector().textContains("%d")'%(stockNum)
-    # driver.find_element_by_android_uiautomator(numPath).click()
     sleep(10)
     # driver.quit()
+
+def loginApp(driver,*others):
+    pwdPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.EditText'
+    if isExist(driver, 2, pwdPath):
+        driver.find_element_by_xpath(pwdPath).click()
+        sleep(1)
+        pwd = getPwd('ruiFeng')['logInPwd']
+        getKeyCode(driver, pwd)
+        sleep(1)
+        confirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button'
+        driver.find_element_by_xpath(confirmPath).click()
+        sleep(2)
+    if others:
+        lastPath = others[0]
+        if isExist(driver, 2, lastPath):
+            driver.find_element_by_xpath(lastPath).click()
+            sleep(1)

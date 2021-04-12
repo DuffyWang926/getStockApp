@@ -41,6 +41,7 @@ def  buyStock():
         'setIndex':0,
         'code':'09961',
         'codeName':'携程集团-S',
+        'oneNum':'50',
         'num':'350',
         'isCash':isCash,
         'isCashAll':False,
@@ -70,9 +71,10 @@ def  buyStock():
     # buyAErFa(param)
     # buyYiSheng(param) 
     # buyYiTaoJin(param)
+    # 验证码
+    # buyXueYing(param)
 
-    buyXueYing(param)
-    # buyRuiFeng(param)
+    buyRuiFeng(param)
     
     # buyGuoDu(param)
     # buyZhangLe(param)
