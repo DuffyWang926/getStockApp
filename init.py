@@ -62,6 +62,8 @@ def  buyStock():
     # buyYaoCai(param)
     # buyChangQiao(param)
     # buyYouYu(param)
+    # buyFangDe(param)
+
 
 
     # ？
@@ -69,8 +71,7 @@ def  buyStock():
     # buyYiSheng(param) 
     # buyYiTaoJin(param)
 
-    buyFangDe(param)
-    # buyXueYing(param)
+    buyXueYing(param)
     # buyRuiFeng(param)
     
     # buyGuoDu(param)
