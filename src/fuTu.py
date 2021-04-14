@@ -158,14 +158,19 @@ def getFuTuProperty(param):
 def tradeFuTu(param):
     driver = initFuTu(param)
     searchPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.LinearLayoutCompat/android.widget.FrameLayout[2]/android.widget.ImageView'
+    if not isExist( driver, 2, searchPath):
+        searchPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.LinearLayoutCompat/android.widget.FrameLayout[1]/android.widget.ImageView'
     driver.find_element_by_xpath(searchPath).click()
     sleep(1)
     code = param['code']
     getKeyCode(driver,code)
-    sleep(2)
-    stockPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.view.ViewGroup/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.view.ViewGroup'
-    driver.find_element_by_xpath(stockPath).click()
-    sleep(1)
+    sleep(4)
+    recordFlag = True
+    while recordFlag:
+        stockPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.view.ViewGroup/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.view.ViewGroup'
+        driver.find_element_by_xpath(stockPath).click()
+        sleep(1)
+        recordFlag = recordPrice(driver,param)
     sleep(10)
 
 def initFuTu(param):
@@ -180,5 +185,45 @@ def initFuTu(param):
     driver.launch_app(); 
     sleep(5)
     return driver
-    
 
+def recordPrice(driver,param):
+    pricePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView'
+    nowPrice =  float(driver.find_element_by_xpath(pricePath).text[0:5])
+    priceInit = param['priceInit']
+    percentage = round((nowPrice - priceInit)/priceInit,2)
+    tradeUp = param['tradeUp']
+    tradeSum = param['tradeSum']
+    if percentage > tradeUp:
+        tradeParam = {
+            'nowPrice':nowPrice,
+            'tradeSum':tradeSum
+        }
+        tradePrice(driver,tradeParam)
+        return False
+    else:
+        backPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton'
+        driver.find_element_by_xpath(backPath).click()
+        sleep(1)
+        return True
+
+
+def tradePrice(driver,tradeParam):
+    print(tradeParam)
+    nowPrice = tradeParam['nowPrice']
+    tradeSum = tradeParam['tradeSum']
+    tradePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout[3]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView'
+    driver.find_element_by_xpath(tradePath).click()
+    sleep(1)
+    priceEditPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.EditText'
+    driver.find_element_by_xpath(priceEditPath).clear()
+    driver.find_element_by_xpath(priceEditPath).send_keys(str(nowPrice))
+    sleep(1)
+    numPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.EditText'
+    driver.find_element_by_xpath(numPath).clear()
+    driver.find_element_by_xpath(numPath).send_keys(str(tradeSum))
+    confirmPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.Button'
+    driver.find_element_by_xpath(confirmPath).click()
+    sleep(1)
+    # pwd = getPwd('fuTu','tradePwd')
+    # getKeyCode(driver,pwd)
+    # sleep(1)

@@ -64,8 +64,7 @@ def  buyStock():
     # buyChangQiao(param)
     # buyYouYu(param)
     # buyFangDe(param)
-
-
+    # buyRuiFeng(param)
 
     # ？
     # buyAErFa(param)
@@ -74,7 +73,6 @@ def  buyStock():
     # 验证码
     # buyXueYing(param)
 
-    buyRuiFeng(param)
     
     # buyGuoDu(param)
     # buyZhangLe(param)
@@ -102,6 +100,11 @@ def trade():
         'num':'500',
         'numVal':'1手',
         'isAll':False,
+        'priceInit':0.28,
+        'tradeUp':6.1,
+        'tradeDown':1,
+        'tradeSum':5000,
+        
     }
     tradeFuTu(param)
 def getProperty():
@@ -142,7 +145,7 @@ if __name__ == '__main__':
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(buyStock())
     # loop.close()
-    buyStock()
-    # trade()
+    # buyStock()
+    trade()
     # operateMainland()
     # getProperty()
