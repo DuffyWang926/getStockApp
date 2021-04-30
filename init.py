@@ -22,12 +22,72 @@ from src.liTongTianXia import buyLiTongTianXia
 from src.fangDe import buyFangDe
 from src.xueYing import buyXueYing
 from src.ruiFeng import buyRuiFeng
+from src.huiLi import buyHuiLi
+
 
 from src.test import tryTest
 from mysql.initDB import initMysql
 from src.mainland.zhaoShang import operateZhaoShang
 from time import sleep
 def  buyStock():
+    brokerList = [
+        {
+            "name":'huaTai',
+            "cashCost":0,
+            "financeCost":0,
+        },
+        {
+            "name":'aiDe',
+            "cashCost":0,
+            "financeCost":100,
+        },
+        {
+            "name":'yingLi',
+            "cashCost":20,
+            "financeCost":100,
+        },
+        {
+            "name":'fuYuan',
+            "cashCost":10,
+            "financeCost":100,
+        },
+        {
+            "name":'laoHu',
+            "cashCost":-1,
+            "financeCost":100,
+        },
+        {
+            "name":'fuTu',
+            "cashCost":50,
+            "financeCost":100,
+        },
+        {
+            "name":'changQiao',
+            "cashCost":50,
+            "financeCost":100,
+        },
+        {
+            "name":'fangDe',
+            "cashCost":0,
+            "financeCost":120,
+        },
+        {
+            "name":'liFuMoEr',
+            "cashCost":50,
+            "financeCost":100,
+        },
+        {
+            "name":'yiSheng',
+            "cashCost":50,
+            "financeCost":100,
+        },
+        {
+            "name":'huiLi',
+            "cashCost":0,
+            "financeCost":100,
+        }
+        
+    ]
     typeApp = {
         'tiger':True,
         'dongCai':True,
@@ -74,6 +134,8 @@ def  buyStock():
     # buyXueYing(param)
 
     
+    # buyHuiLi(param)
+    
     # buyGuoDu(param)
     # buyZhangLe(param)
     # unused
@@ -96,7 +158,7 @@ def operateMainland():
 def trade():
     param = {
         'setIndex':0,
-        'code':'01413',
+        'code':'06622',
         'num':'500',
         'numVal':'1手',
         'isAll':False,
@@ -126,8 +188,6 @@ def getProperty():
     # getYouYuProperty(param)
     # getAErFaProperty(param)
     # getChangQiaoProperty(param)
-    
-    
 
     
     

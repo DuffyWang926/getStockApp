@@ -38,17 +38,19 @@ def numFromStr(str):
 
     return result
 
-# def numFromStr(str):
-#     numList = []
-#     initList = re.findall(r"\d+\.?\d*",str)
-#     for s in initList:
-#         c = float(s)
-#         temp = round(c,2)
-#         numList.append(temp)
-
-#     if len(numList) == 1:
-#         result = numList[0]
-#     else:
-#         result = numList
-
-#     return result   
+def isNumber(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        pass
+ 
+    try:
+        import unicodedata
+        unicodedata.numeric(s)
+        return True
+    except (TypeError, ValueError):
+        pass
+ 
+    return False
+  

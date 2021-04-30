@@ -2,11 +2,11 @@ import os
 from time import sleep
 import unittest
 from appium import webdriver
-from utils.verify import isExist
-from utils.verify import numFromStr
+from utils.verify import numFromStr, isNumber, isExist
 from setting import getSetting
 from mysql.initDB import initMysql
 from src.getPwdData import getPwd, getKeyCode
+import time
 # driver.find_element_by_id('android:id/content')
 # driver.find_element_by_class_name('android.view.View')
 # driver.find_element_by_xpath('//android.view.View[contains(@text, "去认购")]')
@@ -188,24 +188,50 @@ def initFuTu(param):
 
 def recordPrice(driver,param):
     pricePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView'
-    nowPrice =  float(driver.find_element_by_xpath(pricePath).text[0:5])
-    priceInit = param['priceInit']
-    percentage = round((nowPrice - priceInit)/priceInit,2)
-    tradeUp = param['tradeUp']
-    tradeSum = param['tradeSum']
-    if percentage > tradeUp:
-        tradeParam = {
-            'nowPrice':nowPrice,
-            'tradeSum':tradeSum
-        }
-        tradePrice(driver,tradeParam)
-        return False
-    else:
-        backPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton'
-        driver.find_element_by_xpath(backPath).click()
-        sleep(1)
-        return True
+    maxPricePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.widget.TextView[2]'
+    maxText = driver.find_element_by_xpath(maxPricePath).text
+    if isNumber(maxText):
+        nowPrice =  float(driver.find_element_by_xpath(pricePath).text[0:5])
+        maxPrice = float(driver.find_element_by_xpath(maxPricePath).text)
+        minPricePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[5]/android.widget.TextView[2]'
+        minPrice = float(driver.find_element_by_xpath(minPricePath).text)
+        todayPercentagePath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView[2]'
+        todayPercentage = float(driver.find_element_by_xpath(todayPercentagePath).text[0:4])
+        priceInit = param['priceInit']
+        percentage = round((nowPrice - priceInit)/priceInit,2)
+        tradeUp = param['tradeUp']
+        tradeSum = param['tradeSum']
+        tableName = 'code' + param['code']
+        ticks = time.time()
+        recordTime = int(ticks)
+        print(recordTime)
+        print(nowPrice)
+        print(maxPrice)
+        print(minPrice)
 
+        param = {
+            'method':0,
+            'tableName':tableName,
+            'nowPrice':nowPrice,
+            'maxPrice':maxPrice,
+            'minPrice':minPrice,
+            'percentage':todayPercentage,
+            'recordTime':recordTime,
+        }
+        initMysql(param)
+        # if percentage > tradeUp:
+        if False:
+            tradeParam = {
+                'nowPrice':nowPrice,
+                'tradeSum':tradeSum
+            }
+            tradePrice(driver,tradeParam)
+            return False
+        else:
+            backPath = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton'
+            driver.find_element_by_xpath(backPath).click()
+            sleep(1)
+            return True
 
 def tradePrice(driver,tradeParam):
     print(tradeParam)
